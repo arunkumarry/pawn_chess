@@ -1,12 +1,12 @@
 class Board
   attr_accessor :board
 
-  def initialize
-    @board = Array.new(8) { Array.new(8, 0) }
+  def initialize(board)
+    @board = board
   end
 
   def move(player, from_row = nil, from_col = nil, to_row = nil, to_col = nil)
-    if player.type == "bot"
+    if player.bot?
       bot_move(player)
     else
       if legal_move?(player, from_row, from_col, to_row, to_col)
@@ -71,7 +71,7 @@ class Board
     moves = all_poss_moves(player)
     return false if moves.empty?
 
-    # forst try capturing
+    # first try capturing
     captures = moves.select { |m| board[m[:to][0]][m[:to][1]] != 0 }
     selected_move = captures.any? ? captures.sample : moves.sample
 

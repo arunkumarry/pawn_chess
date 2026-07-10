@@ -1,11 +1,15 @@
-class Player
-  attr_accessor :name, :type, :indicator, :moves_history, :pawns
+class Player < ApplicationRecord
+  belongs_to :game
 
-  def initialize(name: "Test", type: nil, indicator:)
-    @name = name
-    @type = type
-    @indicator = indicator
-    @moves_history = []
-    @pawns = 16
+  validates :name, presence: true
+  validates :indicator, presence: true, inclusion: { in: [1, 2] }
+  validates :player_type, inclusion: { in: ["human", "bot"] }, allow_nil: true
+
+  def bot?
+    player_type == "bot"
+  end
+
+  def type
+    player_type
   end
 end
